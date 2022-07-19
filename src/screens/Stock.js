@@ -8,11 +8,9 @@ const StockPage = () =>{
 
     const [user] = useAuth()
     const [data, setData] = useState([])
-    const [loading, setLoading] = useState()
     const [modalVisible, setModalVisible] = useState(false)
     const [modalData, setModalData] = useState({})
     const [tempState, setTempState] = useState()
-    const [tempIndex, setTempIndex] = useState()
 
     const checkIfTempState = (display) =>{
         if (tempState != null) {
@@ -27,7 +25,6 @@ const StockPage = () =>{
         .then((response) => response.json())
         .then((json) => setData(json))
         .catch((error) => console.log(error))
-        .finally(() => setLoading(false))
     }, [])
 
     const updateState = (id, newStateName) => {
@@ -44,7 +41,6 @@ const StockPage = () =>{
 
     const setModal = (item, index) => {
         if(tempState != null) setTempState(null);
-        setTempIndex(index);
         setModalData(item);
         setModalVisible(true);
     }
@@ -96,14 +92,13 @@ const StockPage = () =>{
                 onRequestClose={() => {
                     Alert.alert("Modal has been closed.");
                     setModalVisible(!modalVisible);
-                    setTempIndex(null);
                 }}
             >
                 
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text>{modalData.name_d}</Text>
-                        <Text>{modalData.state}</Text>
+                        <Text style={styles.textState}>État du drone : <Text style={checkIfTempState(modalData.state) == 'En Stock' ? styles.textStateDrone : styles.textStateDroneUnavailable && modalData.state == 'En Location' ? styles.textStateDroneResa : styles.textStateDroneUnavailable}>{checkIfTempState(modalData.state)}</Text></Text>
                         <View style={styles.containerBtn}>
                         {checkIfTempState(modalData.state) !== 'En Stock' ?
                             <TouchableOpacity
@@ -117,7 +112,7 @@ const StockPage = () =>{
                                 style={styles.btnGoToSAV}
                                 onPress={() => patchDroneToSAV(modalData._id)}
                                 underlayColor='#fff'>
-                                <Text style={styles.button} color={'white'} >Entrée au SAV</Text>
+                                <Text style={styles.textBtnGoTo}>Entrée au SAV</Text>
                             </TouchableOpacity>
                         }</View>
                         <Pressable
@@ -139,7 +134,7 @@ const StockPage = () =>{
                             onPress={() => setModal(item, index)}
                         >
                             <Text style={styles.textDroneName}>{item.name_d}</Text>
-                            <Text style={styles.textState}>Statut : <Text style={item.state == 'En Stock' ? styles.textStateDrone : styles.textStateDroneUnavailable}>{item.state}</Text></Text>
+                            <Text style={styles.textState}>État du drone : <Text style={item.state == 'En Stock' ? styles.textStateDrone : styles.textStateDroneUnavailable && item.state == 'En Location' ? styles.textStateDroneResa : styles.textStateDroneUnavailable}>{item.state}</Text></Text>
                         </Pressable>
                     </View>
                 }
@@ -321,6 +316,26 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
         textTransform: 'uppercase'
+    },
+    btnGoToStock: {
+        alignSelf: "center",
+        padding: 10,
+        margin: 10,
+        marginRight: 25,
+        borderRadius: 5,
+        backgroundColor: "forestgreen",
+    },
+    btnGoToSAV: {
+        alignSelf: "center",
+        padding: 10,
+        margin: 10,
+        marginRight: 25,
+        borderRadius: 5,
+        backgroundColor: "firebrick",
+    },
+    containerBtn: {
+        // flexDirection: "row",
+        alignSelf: "center"
     }
 })
 
