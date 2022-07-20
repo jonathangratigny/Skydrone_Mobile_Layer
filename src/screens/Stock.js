@@ -97,22 +97,22 @@ const StockPage = () =>{
                 
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text>{modalData.name_d}</Text>
-                        <Text style={styles.textState}>État du drone : <Text style={checkIfTempState(modalData.state) == 'En Stock' ? styles.textStateDrone : styles.textStateDroneUnavailable && modalData.state == 'En Location' ? styles.textStateDroneResa : styles.textStateDroneUnavailable}>{checkIfTempState(modalData.state)}</Text></Text>
+                        <Text style={styles.textDroneNameModal}>{modalData.name_d}</Text>
+                        <Text style={styles.textStateModal}><Text style={checkIfTempState(modalData.state) == 'En Stock' ? styles.textStateDrone : styles.textStateDroneUnavailable && modalData.state == 'En Location' ? styles.textStateDroneResa : styles.textStateDroneUnavailable}>{checkIfTempState(modalData.state)}</Text></Text>
                         <View style={styles.containerBtn}>
                         {checkIfTempState(modalData.state) !== 'En Stock' ?
                             <TouchableOpacity
-                                style={styles.btnGoToStock}
+                            style={[styles.button, styles.buttonToStock]}
                                 onPress={() => patchDroneToStock(modalData._id)}
                                 underlayColor='#fff'>
-                                <Text style={styles.textBtnGoTo}>Entrée en stock</Text>
+                                <Text style={styles.textStyle}>Entrée en stock</Text>
                             </TouchableOpacity>
                             :
                             <TouchableOpacity
-                                style={styles.btnGoToSAV}
+                                style={[styles.button, styles.buttonToSAV]}
                                 onPress={() => patchDroneToSAV(modalData._id)}
                                 underlayColor='#fff'>
-                                <Text style={styles.textBtnGoTo}>Entrée au SAV</Text>
+                                <Text style={styles.textStyle}>Entrée au SAV</Text>
                             </TouchableOpacity>
                         }</View>
                         <Pressable
@@ -134,42 +134,24 @@ const StockPage = () =>{
                             onPress={() => setModal(item, index)}
                         >
                             <Text style={styles.textDroneName}>{item.name_d}</Text>
-                            <Text style={styles.textState}>État du drone : <Text style={item.state == 'En Stock' ? styles.textStateDrone : styles.textStateDroneUnavailable && item.state == 'En Location' ? styles.textStateDroneResa : styles.textStateDroneUnavailable}>{item.state}</Text></Text>
+                            <Text style={styles.textState}>Statut : <Text style={item.state == 'En Stock' ? styles.textStateDrone : styles.textStateDroneUnavailable && item.state == 'En Location' ? styles.textStateDroneResa : styles.textStateDroneUnavailable}>{item.state}</Text></Text>
                         </Pressable>
                     </View>
                 }
             />
         </View>
-
-        {/* <View style={styles.container}>
-            <Text style={ styles.titleSky }>SKY <Text style={ styles.titleBlack }>DR</Text>O<Text style={ styles.titleBlack }>NE</Text></Text>
-            <Text style={ styles.titleStock }>aperçu du stock</Text>
-            
-
-            <FlatList
-                style={styles.cell}
-                data={data}
-                keyExtractor={(data) => data.id}
-                renderItem={({ item }) => 
-                <View style={styles.card}>
-                    <Text style={styles.textDroneName}>{item.name_d}</Text>
-                    <Text style={styles.textState}>Statut : <Text style={item.state == 'En Stock' ? styles.textStateDrone : styles.textStateDroneUnavailable}>{item.state}</Text></Text>
-                </View>
-            }
-            />
-        </View> */}
         </>
     );
 }
 
 const styles = StyleSheet.create({
-    centeredView: {
+    centeredView:{
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
         marginTop: 22
-      },
-      modalView: {
+    },
+    modalView:{
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,
@@ -177,37 +159,37 @@ const styles = StyleSheet.create({
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
-          width: 0,
-          height: 2
+            width: 0,
+            height: 2
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5
-      },
-      button: {
+    },
+    button:{
         borderRadius: 20,
-        padding: 20,
-        marginTop: 30,
+        padding: 15,
+        marginTop: 50,
         elevation: 2,
-      },
-      buttonClose: {
-        backgroundColor: "#3caae9",
-      },
-      buttonOpen: {
-        backgroundColor: "#F194FF",
-      },
-      buttonClose: {
+    },
+    buttonClose:{
         backgroundColor: "#2196F3",
-      },
-      textStyle: {
+    },
+    buttonToSAV:{
+        backgroundColor: "firebrick",
+    },
+    buttonToStock:{
+        backgroundColor: "forestgreen",
+    },
+    textStyle: {
         color: "white",
         fontWeight: "bold",
         textAlign: "center"
-      },
-      modalText: {
+    },
+    modalText: {
         marginBottom: 15,
         textAlign: "center"
-      },
+    },
     container: {
         flex: 1,
         backgroundColor: "#fff",
@@ -227,7 +209,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textTransform: "uppercase"
     },
-    titleSky: {
+    titleSky:{
         marginBottom: 10,
         marginTop: 10,
         padding: 10,
@@ -238,10 +220,10 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: "bold",
     },
-    titleBlack: {
+    titleBlack:{
         color: 'black'
     },
-    textStateDrone: {
+    textStateDrone:{
         padding: 10,
         letterSpacing: 1,
         fontSize: 18,
@@ -249,7 +231,7 @@ const styles = StyleSheet.create({
         color: "#32cd32",
         fontWeight: "bold"
     },
-    textStateDroneUnavailable: {
+    textStateDroneUnavailable:{
         color: '#dc143c',
         padding: 10,
         letterSpacing: 1,
@@ -269,6 +251,11 @@ const styles = StyleSheet.create({
         padding: 10,
         letterSpacing: 1,
         fontSize: 18,
+        textAlign: "center",
+    },
+    textStateModal:{
+        padding: 5,
+        letterSpacing: 1,
         textAlign: "center",
     },
     card:{
@@ -299,11 +286,11 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     textDroneNameModal:{
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
         textTransform: 'uppercase',
-        //padding: 10,
+        padding: 10
     },
     title: {
         marginBottom: 20,
@@ -317,24 +304,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textTransform: 'uppercase'
     },
-    btnGoToStock: {
-        alignSelf: "center",
-        padding: 10,
-        margin: 10,
-        marginRight: 25,
-        borderRadius: 5,
-        backgroundColor: "forestgreen",
-    },
-    btnGoToSAV: {
-        alignSelf: "center",
-        padding: 10,
-        margin: 10,
-        marginRight: 25,
-        borderRadius: 5,
-        backgroundColor: "firebrick",
-    },
     containerBtn: {
-        // flexDirection: "row",
         alignSelf: "center"
     }
 })
