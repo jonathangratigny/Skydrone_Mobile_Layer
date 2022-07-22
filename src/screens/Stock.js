@@ -98,11 +98,11 @@ const StockPage = () =>{
                         justifyContent: 'center',
                         width: 70,
                         position: 'absolute',
-                        bottom: 10,
-                        right: 10,
+                        top: 5,
+                        right: 5,
                         height: 70,
                         backgroundColor: '#fff',
-                        borderRadius: 100,
+                        borderRadius: 3,
                         }}
                     >
                         <Text>.</Text>

@@ -44,7 +44,7 @@ const EventLog = (props) => {
                         console.log(order.state_o);
                         return(
                             <>
-                                <View style={styleByState(order.state_o)}>
+                                <View key={`order${index}`} style={styleByState(order.state_o)}>
                                     <Text>i</Text>
                                 </View>
                             </>
